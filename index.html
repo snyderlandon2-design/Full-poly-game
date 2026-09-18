@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>PolyClash Arena 3D</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <button id="homeBtn" class="small-btn">HOME</button>
+      <div class="brand">POLYCLASH <span>ARENA</span></div>
+      <div class="account"><span id="userName">Guest</span><span id="points">0 pts</span></div>
+    </header>
+
+    <main>
+      <section id="authScreen" class="screen active">
+        <div class="card auth-card">
+          <h1>POLYCLASH <span>ARENA</span></h1>
+          <p class="muted">3D multiplayer arena fighter</p>
+          <input id="authEmail" type="email" placeholder="Email">
+          <input id="authPassword" type="password" placeholder="Password">
+          <input id="authUsername" type="text" maxlength="20" placeholder="Username (new accounts)">
+          <div class="row">
+            <button id="signInBtn" class="btn">LOG IN</button>
+            <button id="signUpBtn" class="btn gold">CREATE ACCOUNT</button>
+          </div>
+          <p id="authStatus" class="status"></p>
+          <p class="tiny">Your password is handled by the authentication provider and is not stored in the game database.</p>
+        </div>
+      </section>
+
+      <section id="menuScreen" class="screen">
+        <div class="hero">
+          <h1>POLYCLASH <span>ARENA</span></h1>
+          <p>Collect fighters. Upgrade them. Battle bots and players.</p>
+          <div class="menu-grid">
+            <button class="btn" data-screen="botScreen">BOT BATTLE</button>
+            <button class="btn red" data-screen="publicScreen">PUBLIC ZONE</button>
+            <button class="btn gold" data-screen="lockerScreen">LOCKER</button>
+            <button class="btn" data-screen="summonScreen">SUMMON</button>
+            <button class="btn" data-screen="privateScreen">PRIVATE SERVER</button>
+            <button id="adminMenuBtn" class="btn admin-only hidden" data-screen="adminScreen">ADMIN</button>
+          </div>
+          <button id="logoutBtn" class="link-btn">Log out</button>
+        </div>
+      </section>
+
+      <section id="botScreen" class="screen">
+        <div class="card">
+          <h2>BOT BATTLE</h2>
+          <p class="muted">Choose your opponent.</p>
+          <div id="difficultyGrid" class="choice-grid"></div>
+          <button class="btn" data-screen="menuScreen">BACK</button>
+        </div>
+      </section>
+
+      <section id="publicScreen" class="screen">
+        <div class="card">
+          <h2>PUBLIC ZONE</h2>
+          <p>Enter the shared arena and see other connected players.</p>
+          <button id="publicJoinBtn" class="btn red">ENTER PUBLIC ARENA</button>
+          <button class="btn" data-screen="menuScreen">BACK</button>
+        </div>
+      </section>
+
+      <section id="privateScreen" class="screen">
+        <div class="card">
+          <h2>PRIVATE SERVER</h2>
+          <p class="muted">One saved private-room identity per account.</p>
+          <button id="createPrivateBtn" class="btn gold">CREATE MY SERVER</button>
+          <div class="divider"></div>
+          <input id="roomCodeInput" maxlength="8" placeholder="Room code">
+          <button id="joinPrivateBtn" class="btn">JOIN SERVER</button>
+          <p id="privateStatus" class="status"></p>
+          <button class="btn" data-screen="menuScreen">BACK</button>
+        </div>
+      </section>
+
+      <section id="lockerScreen" class="screen">
+        <div class="card wide">
+          <h2>LOCKER</h2>
+          <p id="selectedInfo" class="muted"></p>
+          <div id="lockerGrid" class="fighter-grid"></div>
+          <button id="upgradeBtn" class="btn gold">UPGRADE SELECTED — 150 PTS</button>
+          <button class="btn" data-screen="menuScreen">BACK</button>
+        </div>
+      </section>
+
+      <section id="summonScreen" class="screen">
+        <div class="card">
+          <h2>CHARACTER SUMMON</h2>
+          <p>100 pts per roll.</p>
+          <div id="summonResult" class="summon-result">READY</div>
+          <button id="summonBtn" class="btn gold">ROLL 1X — 100 PTS</button>
+          <button class="btn" data-screen="menuScreen">BACK</button>
+        </div>
+      </section>
+
+      <section id="adminScreen" class="screen">
+        <div class="card wide admin-card">
+          <h2>ADMIN CONTROL</h2>
+          <div class="admin-toggle">
+            <span>Admin powers</span><button id="powerToggle" class="toggle">OFF</button>
+          </div>
+          <div id="adminTools" class="hidden">
+            <h3>Players</h3>
+            <input id="playerSearch" placeholder="Search username">
+            <button id="refreshPlayersBtn" class="btn">REFRESH</button>
+            <div id="playerList" class="player-list"></div>
+            <h3>Selected player</h3>
+            <div class="row">
+              <input id="grantPointsInput" type="number" value="1000">
+              <button id="grantPointsBtn" class="btn gold">GIVE POINTS</button>
+              <button id="unlockAllBtn" class="btn">UNLOCK ALL</button>
+            </div>
+            <h3>Developer</h3>
+            <p class="tiny">Do not paste executable code into a public browser field. Game updates should be deployed through GitHub.</p>
+          </div>
+          <button class="btn" data-screen="menuScreen">BACK</button>
+        </div>
+      </section>
+    </main>
+
+    <div id="gameUI" class="hidden">
+      <div class="hud">
+        <div><b id="arenaTitle">ARENA</b></div>
+        <div>HP <span id="hpText">100</span></div>
+        <div>ENEMY <span id="enemyHpText">100</span></div>
+        <div>PTS <span id="gamePoints">0</span></div>
+      </div>
+      <div id="touchControls" class="hidden">
+        <div id="joy" class="joystick"><div id="knob"></div></div>
+        <div class="actions">
+          <button id="sprintBtn">SPRINT</button>
+          <button id="jumpBtn">JUMP</button>
+          <button id="attackBtn" class="attack">ATTACK</button>
+        </div>
+      </div>
+      <button id="leaveGameBtn" class="leave">LEAVE</button>
+    </div>
+  </div>
+  <script src="js/config.js"></script>
+  <script src="js/characters.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

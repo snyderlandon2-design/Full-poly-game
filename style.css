@@ -1,0 +1,26 @@
+:root{
+  --black:#070707;--panel:#111;--panel2:#191919;--gold:#d8ad3d;--gold2:#f3cf67;
+  --red:#d52f2f;--red2:#ff4a4a;--text:#f5f5f5;--muted:#a5a5a5;--line:#292929;
+}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--black);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+button,input{font:inherit}button{cursor:pointer}#app{height:100%}
+.topbar{position:fixed;z-index:50;top:0;left:0;right:0;height:64px;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(7,7,7,.88);border-bottom:1px solid #222;backdrop-filter:blur(8px)}
+.brand{font-weight:950;letter-spacing:2px}.brand span,h1 span{color:var(--gold)}.account{display:flex;gap:14px;font-size:13px}.account span:last-child{color:var(--gold)}
+.small-btn,.btn,.toggle{border:1px solid #3b3b3b;border-radius:10px;background:#151515;color:#fff;padding:11px 16px;font-weight:800;letter-spacing:.5px}
+.btn{background:linear-gradient(#202020,#111);box-shadow:0 4px 18px #000}.btn:hover{border-color:var(--gold)}.btn.gold{background:linear-gradient(#d8ad3d,#94701e);color:#080808;border-color:#f0ca61}.btn.red{background:linear-gradient(#b72b2b,#681313);border-color:#e34a4a}
+.link-btn{background:none;border:0;color:var(--muted);margin-top:15px}.hidden{display:none!important}
+.screen{display:none;position:absolute;inset:0;padding:90px 20px 30px;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 35%,#211d12 0,#0b0b0b 45%,#050505 100%);overflow:auto}
+.screen.active{display:flex}.hero{text-align:center;max-width:700px}.hero h1,h1{font-size:clamp(35px,7vw,70px);margin:0 0 10px;font-weight:950;letter-spacing:2px}.hero p{color:var(--muted)}
+.menu-grid{display:grid;grid-template-columns:repeat(2,minmax(170px,1fr));gap:12px;margin:30px auto;max-width:480px}.menu-grid .btn{min-height:62px}
+.card{width:min(520px,94vw);background:rgba(17,17,17,.96);border:1px solid var(--line);border-radius:18px;padding:25px;box-shadow:0 20px 60px #000;text-align:center}.card.wide{width:min(900px,96vw)}
+.card h2{margin-top:0}.muted,.tiny{color:var(--muted)}.tiny{font-size:12px;line-height:1.45}
+input{width:100%;padding:12px;margin:6px 0;background:#090909;border:1px solid #333;border-radius:9px;color:#fff;outline:none}input:focus{border-color:var(--gold)}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.status{min-height:20px;color:var(--gold)}
+.choice-grid,.fighter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:18px 0}.choice{padding:18px;border:1px solid #333;background:#0d0d0d;border-radius:12px}.choice:hover{border-color:var(--gold)}
+.fighter{padding:12px;border:1px solid #2b2b2b;border-radius:12px;background:#0d0d0d;text-align:left}.fighter.unlocked{border-color:#7b6425}.fighter.selected{outline:2px solid var(--gold)}.fighter-name{font-weight:900}.rarity{font-size:11px;color:var(--gold)}.locked{opacity:.45}
+.summon-result{min-height:65px;display:grid;place-items:center;font-size:20px;font-weight:900;color:var(--gold);margin:15px}
+.divider{height:1px;background:#292929;margin:18px 0}.admin-card{border-color:#6e2222}.admin-toggle{display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px solid #333;border-radius:12px;margin-bottom:18px}.toggle{min-width:80px}.toggle.on{background:var(--red);border-color:#ff6b6b}
+.player-list{max-height:260px;overflow:auto;text-align:left;margin:10px 0}.player{padding:10px;border-bottom:1px solid #292929;cursor:pointer}.player:hover{background:#1d1d1d}
+#gameUI{position:fixed;inset:0;z-index:20;pointer-events:none}.hud{position:absolute;top:78px;left:50%;transform:translateX(-50%);display:flex;gap:20px;background:rgba(0,0,0,.7);border:1px solid #333;border-radius:12px;padding:9px 14px;font-size:13px}.hud span{color:var(--gold)}.leave{position:absolute;top:78px;right:15px;pointer-events:auto;background:#171717;color:#fff;border:1px solid #444;border-radius:9px;padding:9px 13px}.actions{position:absolute;right:22px;bottom:22px;display:flex;gap:10px;pointer-events:auto}.actions button{border:1px solid #777;background:#191919;color:#fff;border-radius:50%;width:70px;height:70px;font-size:11px;font-weight:900}.actions .attack{background:#8d1717;border-color:#ff5b5b}.joystick{position:absolute;left:22px;bottom:22px;width:130px;height:130px;border-radius:50%;background:#ffffff12;border:2px solid #ffffff35;pointer-events:auto;touch-action:none}.joystick #knob{position:absolute;left:39px;top:39px;width:48px;height:48px;border-radius:50%;background:#ffffff45}
+canvas{position:fixed;inset:0;z-index:1}
+@media(max-width:650px){.menu-grid{grid-template-columns:1fr}.topbar{height:55px}.account{gap:7px;font-size:11px}.hud{top:65px}.leave{top:65px}}
